@@ -1,0 +1,2749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Hostel Management</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f7fb;color:#172033}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer;border:0}
+
+.nav{
+    height:70px;
+    background:#102a43;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 6%;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:22px;
+    font-weight:800;
+}
+
+.logo img{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+    border-radius:8px;
+}
+
+.logo span{color:#59c3c3}
+
+.nav-links{
+    display:flex;
+    gap:10px;
+}
+
+.nav-links button,.logout{
+    background:transparent;
+    color:#fff;
+    padding:10px 14px;
+    border-radius:8px;
+}
+
+.nav-links button:hover,.logout:hover{
+    background:#1d4669;
+}
+
+.hero{
+    min-height:480px;
+    background:linear-gradient(135deg,#102a43,#1d587d);
+    color:white;
+    display:flex;
+    align-items:center;
+    padding:60px 8%;
+}
+
+.hero-content{max-width:650px}
+.hero h1{font-size:52px;line-height:1.08;margin-bottom:18px}
+.hero p{font-size:19px;line-height:1.6;color:#d9e9f4;margin-bottom:28px}
+
+.btn{
+    background:#59c3c3;
+    color:#082235;
+    padding:13px 20px;
+    border-radius:9px;
+    font-weight:700;
+}
+
+.btn.secondary{
+    background:white;
+    color:#102a43;
+}
+
+.btn.danger{
+    background:#e45757;
+    color:white;
+}
+
+.btn.small{
+    padding:8px 12px;
+    font-size:13px;
+}
+
+.container{
+    max-width:1150px;
+    margin:auto;
+    padding:35px 20px;
+}
+
+.section-title{margin-bottom:20px}
+.section-title h2{font-size:30px}
+.section-title p{color:#667085;margin-top:6px}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:18px;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:22px;
+    box-shadow:0 5px 20px rgba(16,42,67,.08);
+}
+
+.card h3{margin:8px 0 10px}
+.icon{font-size:30px}
+.muted{color:#667085}
+
+.login-wrap{
+    min-height:calc(100vh - 70px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:30px;
+}
+
+.login{
+    width:450px;
+    max-width:100%;
+    background:white;
+    padding:32px;
+    border-radius:16px;
+    box-shadow:0 8px 30px rgba(0,0,0,.1);
+}
+
+.login h2{margin-bottom:8px}
+.login p{color:#667085;margin-bottom:20px}
+
+label{
+    display:block;
+    font-weight:700;
+    margin:13px 0 7px;
+}
+
+input,select,textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #d5dce5;
+    border-radius:8px;
+    background:#fff;
+}
+
+textarea{
+    min-height:80px;
+    resize:vertical;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:24px;
+    flex-wrap:wrap;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:700;
+    background:#e8f7f4;
+    color:#13795b;
+}
+
+.badge.pending{
+    background:#fff3dc;
+    color:#a15c00;
+}
+
+.table-wrap{
+    overflow:auto;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 5px 18px rgba(16,42,67,.06);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:650px;
+}
+
+th,td{
+    padding:14px;
+    text-align:left;
+    border-bottom:1px solid #edf0f4;
+}
+
+th{background:#f8fafc}
+
+.menu-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:15px;
+}
+
+.menu-day{
+    background:#fff;
+    border-radius:13px;
+    padding:18px;
+    box-shadow:0 4px 16px rgba(0,0,0,.06);
+}
+
+.menu-day h3{
+    color:#102a43;
+    margin-bottom:12px;
+}
+
+.meal{
+    padding:9px 0;
+    border-bottom:1px solid #eee;
+}
+
+.meal:last-child{border:0}
+
+.meal b{
+    display:block;
+    font-size:12px;
+    color:#718096;
+    text-transform:uppercase;
+}
+
+.notice{
+    border-left:4px solid #59c3c3;
+    margin-bottom:12px;
+}
+
+.notice h3{margin-bottom:5px}
+
+.hidden{display:none!important}
+
+.actions{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.stat{
+    font-size:29px;
+    font-weight:800;
+    margin:7px 0;
+}
+
+.footer{
+    background:#102a43;
+    color:#dce8f0;
+    text-align:center;
+    padding:25px;
+    margin-top:30px;
+}
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:30;
+}
+
+.modal-box{
+    background:#fff;
+    width:500px;
+    max-width:100%;
+    padding:25px;
+    border-radius:15px;
+}
+
+.modal-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:10px;
+}
+
+.close{
+    background:#edf2f7;
+    padding:5px 10px;
+    border-radius:7px;
+}
+
+.feature-actions{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+    gap:14px;
+    margin-top:25px;
+}
+
+.feature-card{
+    background:#fff;
+    border-radius:13px;
+    padding:18px;
+    box-shadow:0 4px 16px rgba(0,0,0,.06);
+}
+
+.feature-card h3{margin:6px 0}
+
+.feature-card p{
+    color:#667085;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.toast{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    background:#102a43;
+    color:white;
+    padding:13px 18px;
+    border-radius:9px;
+    display:none;
+    z-index:50;
+}
+
+@media(max-width:700px){
+    .nav{padding:0 4%}
+    .nav-links{display:none}
+    .hero h1{font-size:38px}
+    .hero{padding:45px 6%}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="nav">
+
+    <div class="logo">
+        <img src="assets/smarthostel-logo.jpg" alt="Smart Hostel Logo">
+        <span>SmartHostel</span>
+    </div>
+
+    <div class="nav-links" id="navLinks">
+        <button onclick="showHome()">Home</button>
+        <button onclick="showLogin('student')">Student</button>
+        <button onclick="showLogin('admin')">Admin</button>
+    </div>
+
+    <button class="logout hidden" id="logoutBtn" onclick="logout()">
+        Logout
+    </button>
+
+</nav>
+
+<main id="app"></main>
+
+<div id="modal" class="modal hidden"></div>
+<div id="toast" class="toast"></div>
+
+<script>
+
+const API="http://localhost:3000/api";
+
+let data={
+    students:[],
+    fees:[],
+    payments:[],
+    menu:[],
+    notices:[],
+    requests:[],
+    feedback:[],
+    cancellations:[],
+    messTimings:{}
+};
+
+let currentUser=null;
+let role=null;
+
+
+/* ================= API ================= */
+
+async function api(url,options={}){
+
+    try{
+
+        const response=await fetch(API+url,{
+            headers:{
+                "Content-Type":"application/json"
+            },
+            ...options
+        });
+
+        const result=await response.json();
+
+        if(!response.ok){
+            throw new Error(result.message || "Something went wrong");
+        }
+
+        return result;
+
+    }catch(error){
+
+        toast(error.message);
+        throw error;
+
+    }
+
+}
+
+
+/* ================= DATA ================= */
+
+async function loadData(){
+
+    data=await api("/data");
+
+}
+
+
+/* ================= LOGIN MEMORY ================= */
+
+/*
+   This keeps the student/admin logged in
+   even if the page is refreshed.
+*/
+
+function saveLogin(){
+
+    if(currentUser && role){
+
+        localStorage.setItem(
+            "smartHostelUser",
+            JSON.stringify(currentUser)
+        );
+
+        localStorage.setItem(
+            "smartHostelRole",
+            role
+        );
+
+    }
+
+}
+
+
+function restoreLogin(){
+
+    const savedUser=
+        localStorage.getItem("smartHostelUser");
+
+    const savedRole=
+        localStorage.getItem("smartHostelRole");
+
+    if(savedUser && savedRole){
+
+        try{
+
+            currentUser=JSON.parse(savedUser);
+            role=savedRole;
+
+            document
+                .getElementById("navLinks")
+                .classList.add("hidden");
+
+            document
+                .getElementById("logoutBtn")
+                .classList.remove("hidden");
+
+            if(role==="student"){
+                studentDashboard();
+            }else{
+                adminDashboard();
+            }
+
+            return true;
+
+        }catch(error){
+
+            clearLogin();
+
+        }
+
+    }
+
+    return false;
+
+}
+
+
+function clearLogin(){
+
+    localStorage.removeItem("smartHostelUser");
+    localStorage.removeItem("smartHostelRole");
+
+    currentUser=null;
+    role=null;
+
+}
+
+
+/* ================= BASIC ================= */
+
+function toast(msg){
+
+    const t=document.getElementById("toast");
+
+    t.textContent=msg;
+    t.style.display="block";
+
+    setTimeout(()=>{
+        t.style.display="none";
+    },2200);
+
+}
+
+
+function money(n){
+
+    return "₹"+Number(n).toLocaleString("en-IN");
+
+}
+
+
+function app(html){
+
+    document.getElementById("app").innerHTML=html;
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* ================= HOME ================= */
+
+function showHome(){
+
+    /*
+       IMPORTANT:
+       If somebody is already logged in,
+       Home button will NOT log them out.
+    */
+
+    if(currentUser && role){
+
+        if(role==="student"){
+            studentDashboard();
+        }else{
+            adminDashboard();
+        }
+
+        return;
+
+    }
+
+    clearLogin();
+
+    document
+        .getElementById("logoutBtn")
+        .classList.add("hidden");
+
+    document
+        .getElementById("navLinks")
+        .classList.remove("hidden");
+
+    app(`
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <h1>Smart Hostel Management</h1>
+
+                <p>
+                    One simple platform to manage hostel fees,
+                    online payments, food menus and important notices.
+                </p>
+
+                <div class="actions">
+
+                    <button class="btn"
+                        onclick="showLogin('student')">
+                        Student Login
+                    </button>
+
+                    <button class="btn secondary"
+                        onclick="showLogin('admin')">
+                        Admin Login
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="container">
+
+            <div class="section-title">
+
+                <h2>Everything in one place</h2>
+
+                <p>
+                    Simple tools for students and hostel management.
+                </p>
+
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="icon">💰</div>
+                    <h3>Fee Management</h3>
+                    <p class="muted">
+                        View fee structures and due dates.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="icon">💳</div>
+                    <h3>Easy Payments</h3>
+                    <p class="muted">
+                        Keep payment records.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="icon">🍛</div>
+                    <h3>Food Menu</h3>
+                    <p class="muted">
+                        Check the weekly food menu.
+                    </p>
+                </div>
+
+                <div class="card">
+                    <div class="icon">📢</div>
+                    <h3>Notices</h3>
+                    <p class="muted">
+                        Receive hostel announcements.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer class="footer">
+            © 2026 Smart Hostel Management System
+        </footer>
+
+    `);
+
+}
+
+
+/* ================= LOGIN ================= */
+
+function showLogin(which){
+
+    role=which;
+
+    if(which==="student"){
+
+        app(`
+
+            <div class="login-wrap">
+
+                <div class="login">
+
+                    <h2>👨‍🎓 Student Login</h2>
+
+                    <p>
+                        Login using your Student ID and password.
+                    </p>
+
+                    <label>Student ID</label>
+
+                    <input id="loginId"
+                        placeholder="Enter Student ID">
+
+                    <label>Password</label>
+
+                    <input id="loginPass"
+                        type="password"
+                        placeholder="Enter Password">
+
+                    <button class="btn"
+                        style="width:100%;margin-top:20px"
+                        onclick="login()">
+                        Login
+                    </button>
+
+                    <button class="btn secondary"
+                        style="width:100%;margin-top:10px"
+                        onclick="showRegister()">
+                        Create Student Account
+                    </button>
+
+                    <button class="btn secondary"
+                        style="width:100%;margin-top:10px"
+                        onclick="showHome()">
+                        Back to Home
+                    </button>
+
+                </div>
+
+            </div>
+
+        `);
+
+    }else{
+
+        app(`
+
+            <div class="login-wrap">
+
+                <div class="login">
+
+                    <h2>🛠️ Admin Login</h2>
+
+                    <p>
+                        Login to the administrator account.
+                    </p>
+
+                    <label>Username</label>
+
+                    <input id="loginId"
+                        value="admin">
+
+                    <label>Password</label>
+
+                    <input id="loginPass"
+                        type="password"
+                        placeholder="Enter password">
+
+                    <button class="btn"
+                        style="width:100%;margin-top:20px"
+                        onclick="login()">
+                        Login
+                    </button>
+
+                    <button class="btn secondary"
+                        style="width:100%;margin-top:10px"
+                        onclick="showHome()">
+                        Back to Home
+                    </button>
+
+                </div>
+
+            </div>
+
+        `);
+
+    }
+
+}
+
+
+/* ================= REGISTER ================= */
+
+function showRegister(){
+
+    app(`
+
+        <div class="login-wrap">
+
+            <div class="login">
+
+                <h2>📝 Create Student Account</h2>
+
+                <p>
+                    Create your Smart Hostel student account.
+                </p>
+
+                <label>Student ID</label>
+                <input id="regId"
+                    placeholder="Example: ST002">
+
+                <label>Full Name</label>
+                <input id="regName"
+                    placeholder="Enter your full name">
+
+                <label>Room Number</label>
+                <input id="regRoom"
+                    placeholder="Example: B-205">
+
+                <label>Block</label>
+                <input id="regBlock"
+                    placeholder="Example: Block B">
+
+                <label>Email</label>
+                <input id="regEmail"
+                    type="email"
+                    placeholder="Enter your email">
+
+                <label>Password</label>
+                <input id="regPass"
+                    type="password"
+                    placeholder="Create password">
+
+                <label>Confirm Password</label>
+                <input id="regConfirm"
+                    type="password"
+                    placeholder="Confirm password">
+
+                <button class="btn"
+                    style="width:100%;margin-top:20px"
+                    onclick="registerStudent()">
+                    Create Account
+                </button>
+
+                <button class="btn secondary"
+                    style="width:100%;margin-top:10px"
+                    onclick="showLogin('student')">
+                    ← Back to Student Login
+                </button>
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+
+async function registerStudent(){
+
+    const id=document.getElementById("regId").value.trim();
+    const name=document.getElementById("regName").value.trim();
+    const room=document.getElementById("regRoom").value.trim();
+    const block=document.getElementById("regBlock").value.trim();
+    const email=document.getElementById("regEmail").value.trim();
+    const password=document.getElementById("regPass").value;
+    const confirm=document.getElementById("regConfirm").value;
+
+    if(!id || !name || !room || !block ||
+       !email || !password || !confirm){
+
+        toast("Please fill all fields");
+        return;
+
+    }
+
+    if(password!==confirm){
+
+        toast("Passwords do not match");
+        return;
+
+    }
+
+    try{
+
+        await api("/register",{
+
+            method:"POST",
+
+            body:JSON.stringify({
+                id,
+                name,
+                room,
+                block,
+                email,
+                password
+            })
+
+        });
+
+        toast("Account created successfully!");
+
+        setTimeout(()=>{
+            showLogin("student");
+        },1000);
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= LOGIN FUNCTION ================= */
+
+async function login(){
+
+    const id=
+        document.getElementById("loginId")
+        .value.trim();
+
+    const password=
+        document.getElementById("loginPass")
+        .value;
+
+    if(!id || !password){
+
+        toast("Please enter login details");
+        return;
+
+    }
+
+    try{
+
+        const result=await api("/login",{
+
+            method:"POST",
+
+            body:JSON.stringify({
+
+                role,
+                identifier:id,
+                password
+
+            })
+
+        });
+
+        currentUser=result.user;
+
+        /*
+           SAVE LOGIN
+           This is the important fix.
+        */
+
+        saveLogin();
+
+        await loadData();
+
+        enterApp();
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= ENTER APP ================= */
+
+function enterApp(){
+
+    document
+        .getElementById("navLinks")
+        .classList.add("hidden");
+
+    document
+        .getElementById("logoutBtn")
+        .classList.remove("hidden");
+
+    if(role==="student"){
+
+        studentDashboard();
+
+    }else{
+
+        adminDashboard();
+
+    }
+
+}
+
+
+/* ================= LOGOUT ================= */
+
+function logout(){
+
+    /*
+       ONLY logout button clears login.
+    */
+
+    clearLogin();
+
+    document
+        .getElementById("logoutBtn")
+        .classList.add("hidden");
+
+    document
+        .getElementById("navLinks")
+        .classList.remove("hidden");
+
+    showHome();
+
+    toast("Logged out successfully");
+
+}
+
+
+/* ================= STUDENT DASHBOARD ================= */
+
+function studentDashboard(){
+
+    if(!currentUser){
+
+        showLogin("student");
+        return;
+
+    }
+
+    const paid=data.payments
+        .filter(p=>p.studentId===currentUser.id)
+        .reduce((s,p)=>s+Number(p.amount),0);
+
+    const total=data.fees
+        .reduce((s,f)=>s+Number(f.amount),0);
+
+    const pending=total-paid;
+
+    app(`
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <div>
+
+                    <h2>
+                        Welcome, ${currentUser.name} 👋
+                    </h2>
+
+                    <p class="muted">
+                        ${currentUser.block}
+                        • Room ${currentUser.room}
+                    </p>
+
+                </div>
+
+                <button class="btn"
+                    onclick="studentMenu()">
+                    🍛 View Food Menu
+                </button>
+
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <span class="muted">Total Fees</span>
+                    <div class="stat">
+                        ${money(total)}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="muted">Paid</span>
+                    <div class="stat">
+                        ${money(paid)}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="muted">Pending</span>
+                    <div class="stat">
+                        ${money(pending)}
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="feature-actions">
+
+                <div class="feature-card">
+
+                    <div class="icon">🔄</div>
+
+                    <h3>Request Menu Change</h3>
+
+                    <p>
+                        Request a change to a food item.
+                    </p>
+
+                    <button class="btn small"
+                        onclick="requestMenuChange()">
+                        Request Change
+                    </button>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <div class="icon">🚫</div>
+
+                    <h3>Food Cancellation</h3>
+
+                    <p>
+                        Cancel your meal in advance.
+                    </p>
+
+                    <button class="btn small"
+                        onclick="foodCancellation()">
+                        Cancel Food
+                    </button>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <div class="icon">⭐</div>
+
+                    <h3>Feedback</h3>
+
+                    <p>
+                        Give feedback about hostel food.
+                    </p>
+
+                    <button class="btn small"
+                        onclick="submitFeedback()">
+                        Give Feedback
+                    </button>
+
+                </div>
+
+                <div class="feature-card">
+
+                    <div class="icon">🕐</div>
+
+                    <h3>Mess Timing</h3>
+
+                    <p>
+                        View mess timings.
+                    </p>
+
+                    <button class="btn small"
+                        onclick="messTiming()">
+                        View Timing
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div style="margin-top:30px">
+
+                <div class="section-title">
+                    <h2>Fee Details</h2>
+                </div>
+
+                ${feeTable(false)}
+
+            </div>
+
+            <div style="margin-top:30px">
+
+                <div class="section-title">
+                    <h2>Latest Notices</h2>
+                </div>
+
+                ${noticesHTML()}
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+
+/* ================= FEES ================= */
+
+function feeTable(admin){
+
+    return `
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Fee</th>
+                        <th>Amount</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${data.fees.map(f=>{
+
+                        const paid=data.payments
+                            .filter(p=>
+                                p.studentId===currentUser?.id &&
+                                p.feeId===f.id
+                            )
+                            .reduce(
+                                (s,p)=>s+Number(p.amount),0
+                            );
+
+                        const status=paid>=f.amount
+                            ?"Paid"
+                            :"Pending";
+
+                        return `
+
+                            <tr>
+
+                                <td>${f.name}</td>
+
+                                <td>${money(f.amount)}</td>
+
+                                <td>${f.due}</td>
+
+                                <td>
+
+                                    <span class="badge ${
+                                        status==="Pending"
+                                        ?"pending":""
+                                    }">
+
+                                        ${status}
+
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                ${
+                                    admin
+
+                                    ?
+
+                                    `
+
+                                    <button class="btn small"
+                                        onclick="editFee(${f.id})">
+                                        Edit
+                                    </button>
+
+                                    <button class="btn danger small"
+                                        onclick="deleteFee(${f.id})">
+                                        Delete
+                                    </button>
+
+                                    `
+
+                                    :
+
+                                    status==="Pending"
+
+                                    ?
+
+                                    `
+
+                                    <button class="btn small"
+                                        onclick="payFee(${f.id})">
+                                        Pay Now
+                                    </button>
+
+                                    `
+
+                                    :
+
+                                    `<span class="muted">
+                                        Completed
+                                    </span>`
+
+                                }
+
+                                </td>
+
+                            </tr>
+
+                        `;
+
+                    }).join("")}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ================= NOTICES ================= */
+
+function noticesHTML(){
+
+    return data.notices
+
+        .map(n=>`
+
+            <div class="card notice">
+
+                <h3>${n.title}</h3>
+
+                <p>${n.text}</p>
+
+                <small class="muted">
+                    ${n.date}
+                </small>
+
+            </div>
+
+        `)
+
+        .join("")
+
+        ||
+
+        "<p class='muted'>No announcements.</p>";
+
+}
+
+
+/* ================= MENU ================= */
+
+function studentMenu(){
+
+    app(`
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <div>
+
+                    <h2>🍛 Weekly Food Menu</h2>
+
+                    <p class="muted">
+                        Updated by hostel management
+                    </p>
+
+                </div>
+
+                <button class="btn secondary"
+                    onclick="studentDashboard()">
+                    ← Dashboard
+                </button>
+
+            </div>
+
+            <div class="menu-grid">
+
+                ${menuHTML()}
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+
+function menuHTML(){
+
+    return data.menu.map(m=>`
+
+        <div class="menu-day">
+
+            <h3>${m.day}</h3>
+
+            <div class="meal">
+                <b>Breakfast</b>
+                ${m.breakfast}
+            </div>
+
+            <div class="meal">
+                <b>Lunch</b>
+                ${m.lunch}
+            </div>
+
+            <div class="meal">
+                <b>Snack</b>
+                ${m.snack}
+            </div>
+
+            <div class="meal">
+                <b>Dinner</b>
+                ${m.dinner}
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+/* ================= ADMIN ================= */
+
+function adminDashboard(){
+
+    if(!currentUser){
+
+        showLogin("admin");
+        return;
+
+    }
+
+    const total=data.fees
+        .reduce((s,f)=>s+Number(f.amount),0);
+
+    const paid=data.payments
+        .reduce((s,p)=>s+Number(p.amount),0);
+
+    app(`
+
+        <div class="container">
+
+            <div class="topbar">
+
+                <div>
+
+                    <h2>Admin Dashboard 🛠️</h2>
+
+                    <p class="muted">
+                        Manage hostel system.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <span class="muted">Students</span>
+                    <div class="stat">
+                        ${data.students.length}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="muted">Fee Structure</span>
+                    <div class="stat">
+                        ${money(total)}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="muted">Collected</span>
+                    <div class="stat">
+                        ${money(paid)}
+                    </div>
+                </div>
+
+                <div class="card">
+                    <span class="muted">Payments</span>
+                    <div class="stat">
+                        ${data.payments.length}
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top:30px">
+
+                <div class="topbar">
+
+                    <h2>Fee Management</h2>
+
+                    <button class="btn"
+                        onclick="addFee()">
+                        + Add Fee
+                    </button>
+
+                </div>
+
+                ${feeTable(true)}
+
+            </div>
+
+            <div style="margin-top:35px">
+
+                <div class="topbar">
+
+                    <h2>Food Management</h2>
+
+                    <button class="btn"
+                        onclick="editMenu()">
+                        ✏️ Update Menu
+                    </button>
+
+                </div>
+
+                <div class="menu-grid">
+                    ${menuHTML()}
+                </div>
+
+            </div>
+
+            <div style="margin-top:35px">
+
+                <div class="topbar">
+
+                    <h2>Announcements</h2>
+
+                    <button class="btn"
+                        onclick="addNotice()">
+                        + Add Notice
+                    </button>
+
+                </div>
+
+                ${noticesHTML()}
+
+            </div>
+
+            <div style="margin-top:35px">
+
+                <h2>Student Requests & Feedback</h2>
+
+                ${requestsTable()}
+
+            </div>
+
+            <div style="margin-top:35px">
+
+                <div class="topbar">
+
+                    <h2>Mess Timings</h2>
+
+                    <button class="btn"
+                        onclick="editMessTiming()">
+                        ✏️ Edit Timings
+                    </button>
+
+                </div>
+
+                ${messTimingTable()}
+
+            </div>
+
+            <div style="margin-top:35px">
+
+                <h2>Payment History</h2>
+
+                ${paymentTable()}
+
+            </div>
+
+        </div>
+
+    `);
+
+}
+
+
+/* ================= PAYMENT ================= */
+
+function paymentTable(){
+
+    if(!data.payments.length){
+
+        return `
+
+            <div class="card">
+
+                <p class="muted">
+                    No payments yet.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+    return `
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Student</th>
+                        <th>Fee</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Reference</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    ${data.payments.map(p=>`
+
+                        <tr>
+
+                            <td>${p.studentId}</td>
+                            <td>${p.feeName}</td>
+                            <td>${money(p.amount)}</td>
+                            <td>${p.date}</td>
+                            <td>${p.ref}</td>
+
+                        </tr>
+
+                    `).join("")}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+function payFee(feeId){
+
+    const f=data.fees.find(x=>x.id===feeId);
+
+    if(!f)return;
+
+    document
+        .getElementById("modal")
+        .classList.remove("hidden");
+
+    document.getElementById("modal").innerHTML=`
+
+        <div class="modal-box">
+
+            <div class="modal-head">
+
+                <h2>Pay ${money(f.amount)}</h2>
+
+                <button class="close"
+                    onclick="closeModal()">
+                    ✕
+                </button>
+
+            </div>
+
+            <p class="muted">
+                Demo payment screen.
+            </p>
+
+            <label>Payment Method</label>
+
+            <select id="pm">
+
+                <option>UPI</option>
+                <option>Card</option>
+                <option>Net Banking</option>
+
+            </select>
+
+            <button class="btn"
+                style="margin-top:18px"
+                onclick="completePayment(${feeId})">
+
+                Confirm Payment
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+async function completePayment(feeId){
+
+    try{
+
+        const f=data.fees.find(x=>x.id===feeId);
+
+        await api("/payments",{
+
+            method:"POST",
+
+            body:JSON.stringify({
+
+                studentId:currentUser.id,
+                feeId:feeId,
+                amount:f.amount,
+                method:document.getElementById("pm").value
+
+            })
+
+        });
+
+        await loadData();
+
+        closeModal();
+
+        /*
+           IMPORTANT:
+           Dashboard, NOT login page.
+        */
+
+        studentDashboard();
+
+        toast("Payment successful");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= REQUEST ================= */
+
+function requestMenuChange(){
+
+    featureModal(
+
+        "Request Menu Change",
+
+        `
+
+        <label>Date</label>
+        <input id="reqDate" type="date">
+
+        <label>Meal</label>
+
+        <select id="reqMeal">
+
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Snack</option>
+            <option>Dinner</option>
+
+        </select>
+
+        <label>Current Food</label>
+        <input id="reqCurrent">
+
+        <label>Requested Food</label>
+        <input id="reqNew">
+
+        <label>Reason</label>
+        <textarea id="reqReason"></textarea>
+
+        `,
+
+        "saveMenuRequest()"
+
+    );
+
+}
+
+
+async function saveMenuRequest(){
+
+    const r={
+
+        studentId:currentUser.id,
+
+        type:"Menu Change",
+
+        date:document.getElementById("reqDate").value,
+
+        meal:document.getElementById("reqMeal").value,
+
+        current:document.getElementById("reqCurrent").value,
+
+        newFood:document.getElementById("reqNew").value,
+
+        reason:document.getElementById("reqReason").value,
+
+        status:"Pending"
+
+    };
+
+    if(!r.current || !r.newFood || !r.reason){
+
+        toast("Please fill all fields");
+        return;
+
+    }
+
+    try{
+
+        await api("/requests",{
+
+            method:"POST",
+            body:JSON.stringify(r)
+
+        });
+
+        await loadData();
+
+        closeModal();
+
+        studentDashboard();
+
+        toast("Request submitted");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= CANCELLATION ================= */
+
+function foodCancellation(){
+
+    featureModal(
+
+        "Food Cancellation",
+
+        `
+
+        <label>Date</label>
+        <input id="canDate" type="date">
+
+        <label>Meal</label>
+
+        <select id="canMeal">
+
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Snack</option>
+            <option>Dinner</option>
+
+        </select>
+
+        <label>Reason</label>
+
+        <textarea id="canReason"></textarea>
+
+        `,
+
+        "saveCancellation()"
+
+    );
+
+}
+
+
+async function saveCancellation(){
+
+    const item={
+
+        studentId:currentUser.id,
+
+        date:document.getElementById("canDate").value,
+
+        meal:document.getElementById("canMeal").value,
+
+        reason:document.getElementById("canReason").value,
+
+        status:"Requested"
+
+    };
+
+    try{
+
+        await api("/cancellations",{
+
+            method:"POST",
+            body:JSON.stringify(item)
+
+        });
+
+        await loadData();
+
+        closeModal();
+
+        studentDashboard();
+
+        toast("Food cancellation submitted");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= FEEDBACK ================= */
+
+function submitFeedback(){
+
+    featureModal(
+
+        "Feedback Submission",
+
+        `
+
+        <label>Food Quality</label>
+
+        <select id="fbQuality">
+
+            <option>Excellent</option>
+            <option>Good</option>
+            <option>Average</option>
+            <option>Needs Improvement</option>
+
+        </select>
+
+        <label>Meal</label>
+
+        <select id="fbMeal">
+
+            <option>Breakfast</option>
+            <option>Lunch</option>
+            <option>Snack</option>
+            <option>Dinner</option>
+
+        </select>
+
+        <label>Your Feedback</label>
+
+        <textarea id="fbText"></textarea>
+
+        `,
+
+        "saveFeedback()"
+
+    );
+
+}
+
+
+async function saveFeedback(){
+
+    const text=
+        document.getElementById("fbText")
+        .value.trim();
+
+    if(!text){
+
+        toast("Please enter your feedback");
+        return;
+
+    }
+
+    const item={
+
+        studentId:currentUser.id,
+
+        quality:
+            document.getElementById("fbQuality").value,
+
+        meal:
+            document.getElementById("fbMeal").value,
+
+        text:text
+
+    };
+
+    try{
+
+        await api("/feedback",{
+
+            method:"POST",
+            body:JSON.stringify(item)
+
+        });
+
+        await loadData();
+
+        closeModal();
+
+        /*
+           IMPORTANT:
+           Do NOT use showHome().
+        */
+
+        studentDashboard();
+
+        toast("Feedback submitted");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= MESS TIMING ================= */
+
+function messTiming(){
+
+    const t=data.messTimings;
+
+    featureModal(
+
+        "Mess Timings",
+
+        `
+
+        <div class="card">
+
+            <p>
+                <b>🌅 Breakfast:</b>
+                ${t.breakfast}
+            </p>
+
+            <p style="margin-top:12px">
+                <b>☀️ Lunch:</b>
+                ${t.lunch}
+            </p>
+
+            <p style="margin-top:12px">
+                <b>☕ Snack:</b>
+                ${t.snack}
+            </p>
+
+            <p style="margin-top:12px">
+                <b>🌙 Dinner:</b>
+                ${t.dinner}
+            </p>
+
+        </div>
+
+        `,
+
+        "closeModal()"
+
+    );
+
+}
+
+
+function messTimingTable(){
+
+    const t=data.messTimings;
+
+    return `
+
+        <div class="table-wrap">
+
+            <table>
+
+                <tr>
+                    <th>Meal</th>
+                    <th>Timing</th>
+                </tr>
+
+                <tr>
+                    <td>Breakfast</td>
+                    <td>${t.breakfast}</td>
+                </tr>
+
+                <tr>
+                    <td>Lunch</td>
+                    <td>${t.lunch}</td>
+                </tr>
+
+                <tr>
+                    <td>Snack</td>
+                    <td>${t.snack}</td>
+                </tr>
+
+                <tr>
+                    <td>Dinner</td>
+                    <td>${t.dinner}</td>
+                </tr>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ================= ADMIN FEE ================= */
+
+function addFee(existing=null){
+
+    const f=existing ||
+        {
+            id:Date.now(),
+            name:"",
+            amount:"",
+            due:""
+        };
+
+    document
+        .getElementById("modal")
+        .classList.remove("hidden");
+
+    document.getElementById("modal").innerHTML=`
+
+        <div class="modal-box">
+
+            <div class="modal-head">
+
+                <h2>
+                    ${existing?"Edit":"Add"} Fee
+                </h2>
+
+                <button class="close"
+                    onclick="closeModal()">
+                    ✕
+                </button>
+
+            </div>
+
+            <label>Fee Name</label>
+            <input id="feeName" value="${f.name}">
+
+            <label>Amount</label>
+
+            <input id="feeAmount"
+                type="number"
+                value="${f.amount}">
+
+            <label>Due Date</label>
+
+            <input id="feeDue"
+                type="date"
+                value="${f.due}">
+
+            <button class="btn"
+                style="margin-top:18px"
+                onclick="saveFee(${f.id},${!!existing})">
+
+                Save Fee
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+function editFee(id){
+
+    addFee(
+        data.fees.find(f=>f.id===id)
+    );
+
+}
+
+
+async function saveFee(id,isEdit){
+
+    const name=
+        document.getElementById("feeName")
+        .value.trim();
+
+    const amount=Number(
+        document.getElementById("feeAmount").value
+    );
+
+    const due=
+        document.getElementById("feeDue").value;
+
+    if(!name || !amount || !due){
+
+        toast("Please fill all fields");
+        return;
+
+    }
+
+    try{
+
+        await api("/fees",{
+
+            method:"POST",
+
+            body:JSON.stringify({
+                id,
+                name,
+                amount,
+                due
+            })
+
+        });
+
+        await loadData();
+
+        closeModal();
+
+        adminDashboard();
+
+        toast("Fee saved");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+async function deleteFee(id){
+
+    if(!confirm("Delete this fee?"))return;
+
+    try{
+
+        await api("/fees/"+id,{
+            method:"DELETE"
+        });
+
+        await loadData();
+
+        adminDashboard();
+
+        toast("Fee deleted");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= MENU EDIT ================= */
+
+function editMenu(){
+
+    document
+        .getElementById("modal")
+        .classList.remove("hidden");
+
+    document.getElementById("modal").innerHTML=`
+
+        <div class="modal-box">
+
+            <div class="modal-head">
+
+                <h2>Update Weekly Menu</h2>
+
+                <button class="close"
+                    onclick="closeModal()">
+                    ✕
+                </button>
+
+            </div>
+
+            <div style="max-height:60vh;overflow:auto">
+
+                ${data.menu.map((m,i)=>`
+
+                    <div class="card"
+                        style="margin-bottom:12px">
+
+                        <h3>${m.day}</h3>
+
+                        <label>Breakfast</label>
+                        <input id="b${i}"
+                            value="${m.breakfast}">
+
+                        <label>Lunch</label>
+                        <input id="l${i}"
+                            value="${m.lunch}">
+
+                        <label>Snack</label>
+                        <input id="s${i}"
+                            value="${m.snack}">
+
+                        <label>Dinner</label>
+                        <input id="d${i}"
+                            value="${m.dinner}">
+
+                    </div>
+
+                `).join("")}
+
+            </div>
+
+            <button class="btn"
+                style="margin-top:15px"
+                onclick="saveMenu()">
+
+                Save Menu
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+async function saveMenu(){
+
+    const menu=data.menu.map((m,i)=>({
+
+        day:m.day,
+
+        breakfast:
+            document.getElementById("b"+i).value,
+
+        lunch:
+            document.getElementById("l"+i).value,
+
+        snack:
+            document.getElementById("s"+i).value,
+
+        dinner:
+            document.getElementById("d"+i).value
+
+    }));
+
+    try{
+
+        await api("/menu",{
+
+            method:"POST",
+
+            body:JSON.stringify(menu)
+
+        });
+
+        await loadData();
+
+        closeModal();
+
+        adminDashboard();
+
+        toast("Food menu updated");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= NOTICE ================= */
+
+function addNotice(){
+
+    document
+        .getElementById("modal")
+        .classList.remove("hidden");
+
+    document.getElementById("modal").innerHTML=`
+
+        <div class="modal-box">
+
+            <div class="modal-head">
+
+                <h2>Add Announcement</h2>
+
+                <button class="close"
+                    onclick="closeModal()">
+                    ✕
+                </button>
+
+            </div>
+
+            <label>Title</label>
+            <input id="nt">
+
+            <label>Message</label>
+            <textarea id="nm"></textarea>
+
+            <button class="btn"
+                style="margin-top:15px"
+                onclick="saveNotice()">
+
+                Post Notice
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+async function saveNotice(){
+
+    const title=
+        document.getElementById("nt")
+        .value.trim();
+
+    const text=
+        document.getElementById("nm")
+        .value.trim();
+
+    if(!title || !text){
+
+        toast("Fill all fields");
+        return;
+
+    }
+
+    try{
+
+        await api("/notices",{
+
+            method:"POST",
+
+            body:JSON.stringify({
+                title,
+                text
+            })
+
+        });
+
+        await loadData();
+
+        closeModal();
+
+        adminDashboard();
+
+        toast("Notice posted");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= REQUEST TABLE ================= */
+
+function requestsTable(){
+
+    let rows="";
+
+    data.requests.forEach(r=>{
+
+        rows+=`
+
+            <tr>
+
+                <td>Menu Change</td>
+                <td>${r.studentId}</td>
+                <td>${r.date}</td>
+                <td>${r.meal}</td>
+                <td>
+                    ${r.current} → ${r.newFood}
+                </td>
+                <td>${r.status}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    data.cancellations.forEach(c=>{
+
+        rows+=`
+
+            <tr>
+
+                <td>Food Cancellation</td>
+                <td>${c.studentId}</td>
+                <td>${c.date}</td>
+                <td>${c.meal}</td>
+                <td>${c.reason || "—"}</td>
+                <td>${c.status}</td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    data.feedback.forEach(f=>{
+
+        rows+=`
+
+            <tr>
+
+                <td>Feedback</td>
+                <td>${f.studentId}</td>
+                <td>${f.date || "—"}</td>
+                <td>${f.meal}</td>
+                <td>
+                    ${f.quality}: ${f.text}
+                </td>
+                <td>Submitted</td>
+
+            </tr>
+
+        `;
+
+    });
+
+
+    if(!rows){
+
+        return `
+
+            <div class="card">
+
+                <p class="muted">
+                    No requests or feedback yet.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    return `
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Type</th>
+                        <th>Student</th>
+                        <th>Date</th>
+                        <th>Meal</th>
+                        <th>Details</th>
+                        <th>Status</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+                    ${rows}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ================= MESS EDIT ================= */
+
+function editMessTiming(){
+
+    const t=data.messTimings;
+
+    document
+        .getElementById("modal")
+        .classList.remove("hidden");
+
+    document.getElementById("modal").innerHTML=`
+
+        <div class="modal-box">
+
+            <div class="modal-head">
+
+                <h2>Edit Mess Timings</h2>
+
+                <button class="close"
+                    onclick="closeModal()">
+                    ✕
+                </button>
+
+            </div>
+
+            <label>Breakfast</label>
+            <input id="mtb" value="${t.breakfast}">
+
+            <label>Lunch</label>
+            <input id="mtl" value="${t.lunch}">
+
+            <label>Snack</label>
+            <input id="mts" value="${t.snack}">
+
+            <label>Dinner</label>
+            <input id="mtd" value="${t.dinner}">
+
+            <button class="btn"
+                style="margin-top:18px"
+                onclick="saveMessTiming()">
+
+                Save Timings
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+async function saveMessTiming(){
+
+    const timings={
+
+        breakfast:
+            document.getElementById("mtb").value,
+
+        lunch:
+            document.getElementById("mtl").value,
+
+        snack:
+            document.getElementById("mts").value,
+
+        dinner:
+            document.getElementById("mtd").value
+
+    };
+
+    try{
+
+        await api("/timings",{
+
+            method:"POST",
+
+            body:JSON.stringify(timings)
+
+        });
+
+        await loadData();
+
+        closeModal();
+
+        adminDashboard();
+
+        toast("Mess timings updated");
+
+    }catch(error){
+
+        console.log(error);
+
+    }
+
+}
+
+
+/* ================= MODAL ================= */
+
+function featureModal(title,body,saveFn){
+
+    document
+        .getElementById("modal")
+        .classList.remove("hidden");
+
+    document.getElementById("modal").innerHTML=`
+
+        <div class="modal-box">
+
+            <div class="modal-head">
+
+                <h2>${title}</h2>
+
+                <button class="close"
+                    onclick="closeModal()">
+                    ✕
+                </button>
+
+            </div>
+
+            ${body}
+
+            <button class="btn"
+                style="margin-top:18px"
+                onclick="${saveFn}">
+
+                Submit
+
+            </button>
+
+        </div>
+
+    `;
+
+}
+
+
+function closeModal(){
+
+    document
+        .getElementById("modal")
+        .classList.add("hidden");
+
+    document
+        .getElementById("modal")
+        .innerHTML="";
+
+}
+
+
+/* ================= START ================= */
+
+async function startApp(){
+
+    try{
+
+        await loadData();
+
+        /*
+           First try to restore previous login.
+        */
+
+        if(!restoreLogin()){
+
+            showHome();
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+        showHome();
+
+    }
+
+}
+
+startApp();
+
+</script>
+
+</body>
+</html>
